@@ -17,9 +17,9 @@ RUN \
   && echo " ------ CHECKING INTEGRITY ------" \
   && echo "${CONSULTEMPLATE_SHA}  /tmp/src/consul-template.tar.gz" >> /tmp/src/sha1check \
   && sha1sum -c /tmp/src/sha1check \
-  \
+  \ 
   && echo " ------ SETTING UP CONSULTEMPLATE ------" \
-  && tar /tmp/src/consul-template.tar.gz --strip-components=1 -C /usr/bin --touch && \
+  && tar -xzvf /tmp/src/consul-template.tar.gz --strip-components=1 -C /usr/bin --touch \
   && mkdir -p /etc/consul-template/templates \
   && ln -sf /dev/stdout /var/log/consul-template.log \
   \
@@ -27,7 +27,7 @@ RUN \
   && rm -rf /var/lib/apt/lists/* \
             /tmp/* \
             /var/tmp/* \
-            /tmp/src \
+            /tmp/src 
             
             
 ADD entrypoint.sh /entrypoint.sh
