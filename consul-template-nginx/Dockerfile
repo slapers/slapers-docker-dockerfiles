@@ -1,25 +1,25 @@
-FROM nginx:1.9.4
+FROM nginx:1.9.6
 
 MAINTAINER Stefan Lapers stefan@lapers.be
 
 RUN \
-  deps='curl' \
-  && CONSULTEMPLATE_VERSION=0.10.0 \
-  && CONSULTEMPLATE_SHA=606678dfe2a50b06c10d5d3872b31e7495f5e8da \
+  deps='curl unzip' \
+  && CONSULTEMPLATE_VERSION=0.11.1 \
+  && CONSULTEMPLATE_SHA=e6a5ac6423e277db053a5b34ab973a126056906b \
   \
   && echo " ------ GETTING DEPENDENCIES ------" \
   && apt-get update && apt-get install -y --no-install-recommends $deps \
   \
   && echo " ------ GETTING BINARIES ------" \
   && mkdir /tmp/src \
-  && curl -L https://github.com/hashicorp/consul-template/releases/download/v${CONSULTEMPLATE_VERSION}/consul-template_${CONSULTEMPLATE_VERSION}_linux_amd64.tar.gz -o /tmp/src/consul-template.tar.gz \
+  && curl -L https://releases.hashicorp.com/consul-template/${CONSULTEMPLATE_VERSION}/consul-template_${CONSULTEMPLATE_VERSION}_linux_amd64.zip -o /tmp/src/consul-template.zip \
   \
   && echo " ------ CHECKING INTEGRITY ------" \
-  && echo "${CONSULTEMPLATE_SHA}  /tmp/src/consul-template.tar.gz" >> /tmp/src/sha1check \
+  && echo "${CONSULTEMPLATE_SHA}  /tmp/src/consul-template.zip" >> /tmp/src/sha1check \
   && sha1sum -c /tmp/src/sha1check \
   \ 
   && echo " ------ SETTING UP CONSULTEMPLATE ------" \
-  && tar -xzvf /tmp/src/consul-template.tar.gz --strip-components=1 -C /usr/bin --touch \
+  && unzip -j /tmp/src/consul-template.zip -d /usr/bin \
   && mkdir -p /etc/consul-template/templates \
   && ln -sf /dev/stdout /var/log/consul-template.log \
   \
