@@ -1,11 +1,11 @@
-FROM nginx:1.9.6
+FROM nginx:1.9.9
 
 MAINTAINER Stefan Lapers stefan@lapers.be
 
 RUN \
   deps='curl unzip' \
-  && CONSULTEMPLATE_VERSION=0.11.1 \
-  && CONSULTEMPLATE_SHA=e6a5ac6423e277db053a5b34ab973a126056906b \
+  && CONSULTEMPLATE_VERSION=0.12.2 \
+  && CONSULTEMPLATE_SHA=a8780f365bf5bfad47272e4682636084a7475ce74b336cdca87c48a06dd8a193 \
   \
   && echo " ------ GETTING DEPENDENCIES ------" \
   && apt-get update && apt-get install -y --no-install-recommends $deps \
@@ -16,7 +16,7 @@ RUN \
   \
   && echo " ------ CHECKING INTEGRITY ------" \
   && echo "${CONSULTEMPLATE_SHA}  /tmp/src/consul-template.zip" >> /tmp/src/sha1check \
-  && sha1sum -c /tmp/src/sha1check \
+  && sha256sum -c /tmp/src/sha1check \
   \ 
   && echo " ------ SETTING UP CONSULTEMPLATE ------" \
   && unzip -j /tmp/src/consul-template.zip -d /usr/bin \
