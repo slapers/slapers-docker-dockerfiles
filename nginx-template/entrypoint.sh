@@ -10,7 +10,7 @@ fi
 for _TEMPLATE in $TEMPLATES
 do
   echo "processing template: ${_TEMPLATE}"
-  /usr/bin/perl -p -i -e 's/\$\{([^}]+)\}/defined $ENV{$1} ? $ENV{$1} : $&/eg' ${_TEMPLATE}
+  /usr/bin/perl -p -i -e 's/<\{([^}]+)\}>/defined $ENV{$1} ? $ENV{$1} : $&/eg' ${_TEMPLATE}
   echo "---------------------------------"
   cat ${_TEMPLATE}
 done
